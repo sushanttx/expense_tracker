@@ -6,14 +6,14 @@ import com.springboot_projects.ExpenseTracker.mapper.CategoryMapper;
 import com.springboot_projects.ExpenseTracker.repository.CategoryRepository;
 import com.springboot_projects.ExpenseTracker.service.CategoryService;
 import lombok.*;
-import org.apache.el.util.ReflectionUtil;
-import org.aspectj.util.Reflection;
 import org.springframework.data.util.ReflectionUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryMapper.mapToCategoryDTO(savedCategory);
     }
 
-    @Override
+     @Override
     public CategoryDTO getCategoryById(Long categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Account does not exist."));
         return CategoryMapper.mapToCategoryDTO(category);
@@ -60,5 +60,19 @@ public class CategoryServiceImpl implements CategoryService {
         });
         categoryRepository.save(category);
         return CategoryMapper.mapToCategoryDTO(category);
+    }
+
+    @Override
+    public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("dont"));
+        category.setName(categoryDTO.getName());
+        return CategoryMapper.mapToCategoryDTO(categoryRepository.save(category));
+    }
+
+    @Override
+    public CategoryDTO deleteCategory(Long id) {
+        Category toBeDeleted = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("No"));
+        categoryRepository.deleteById(id);
+        return CategoryMapper.mapToCategoryDTO(toBeDeleted);
     }
 }

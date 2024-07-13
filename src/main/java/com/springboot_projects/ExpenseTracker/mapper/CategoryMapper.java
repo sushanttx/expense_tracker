@@ -6,15 +6,12 @@ import com.springboot_projects.ExpenseTracker.entity.Category;
 public class CategoryMapper {
 //    Map CategoryDTO to Category entity
     public static Category mapToCategory(CategoryDTO categoryDTO){
-        return new Category(
-                categoryDTO.id(),
-                categoryDTO.name()
-        );
+        return new Category(categoryDTO.getId(), categoryDTO.getName());
     }
 //        Map Category entity to CategoryDTO
     public  static CategoryDTO mapToCategoryDTO(Category category){
         return new CategoryDTO(
-                category.getId(),
+                category.getCategoryid(),
                 category.getName()
         );
     }
